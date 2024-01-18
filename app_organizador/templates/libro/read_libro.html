@@ -1,0 +1,105 @@
+{% extends 'plantillas/plantilla_general.html' %}
+{% block contenido %}
+<br>
+<div class="card">
+    <div class="card-header d-flex">
+        <h5 class="text-center">Libros</h5>
+        <div class="d-flex ms-auto">
+            <form class="d-flex" role="search" method="get">
+                <select class="form-select" aria-label="Default select example" name="filtro-buscar">
+                    <option value="" selected hidden>Filtro</option>
+                    <option value="titulo">Titulo</option>
+                    <option value="autor">Autor</option>
+                    <option value="genero">Genero</option>
+                </select>
+                <input class="form-control" type="search" placeholder="buscar..." aria-label="Search"
+                    name="input-buscar" value="{{valor_buscado}}">
+                <button class="btn btn-outline-secondary btn-sm" type="submit">Buscar</button>
+            </form>
+        </div>
+        <div class="d-flex ms-auto">
+            <a href="{% url 'crear-libro' %}" class="btn btn-outline-secondary btn-sm">Agregar</a>
+        </div>
+    </div>
+    <div class="card-body">
+        {% for libro in libros %}
+        <div class="card">
+            <div class="card-header">
+                {{libro.titulo}}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{libro.descripcion}}</h5>
+                <p class="card-text">
+                <ul>
+                    <strong>Año de Publicacion:</strong> {{libro.anio_publicacion}}</br>
+                    <strong>Autor/es:</strong><br>
+                    {% for autor in libro.autores.all %}
+                    {{autor}} <br>
+                    {% endfor %}
+
+                    <strong>Genero/s: </strong><br>
+                    {% for genero in libro.generos.all %}
+                    {{genero}} <br>
+                    {% endfor %}
+
+                </ul>
+                </p>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="{% url 'editar-libro' libro.id %}" class="btn btn-outline-success btn-sm">Editar</a>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#modal_eliminar_{{libro.id}}">
+                    Eliminar
+                </button>
+            </div>
+
+        </div>
+        <br><br>
+        {% endfor %}
+    </div>
+    <div class="card-footer text-muted">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">&#x2190; Volver</a>
+    </div>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if libros.has_previous %}
+            <a href="?pagina=1">&laquo; primera</a>
+            <a href="?pagina={{ libros.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ libros.number }} de {{ libros.paginator.num_pages }}.
+        </span>
+
+        {% if libros.has_next %}
+            <a href="?pagina={{ libros.next_page_number }}">siguiente</a>
+            <a href="?pagina={{ libros.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% for libro in libros %}
+<div class="modal fade" id="modal_eliminar_{{libro.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Libro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                ¿ Seguro de Eliminar <strong>{{libro.titulo}}</strong> ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'eliminar-libro' libro.id %}" class="btn btn-outline-secondary btn-sm">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock contenido %}

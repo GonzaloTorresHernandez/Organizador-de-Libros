@@ -1,0 +1,24 @@
+{% extends 'plantillas/plantilla_general.html' %}
+{% block contenido %}
+<br>
+{% for li in libro %}
+<div class="card">
+    <div class="card-header d-flex">
+        <h5 class="">Comentar Libro "{{li.titulo}}"</h5>
+        <div class="d-flex ms-auto">
+            <a href="{% url 'detalle-libro' li.id %}" class="btn btn-outline-secondary btn-sm">&#x2190; Volver</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+    </div>
+    <div class="card-footer text-muted">
+        <input type="submit" value="Actualizar" class="btn btn-outline-secondary btn-sm">
+    </form>
+      </div>
+</div>
+{% endfor %}
+
+{% endblock contenido %}

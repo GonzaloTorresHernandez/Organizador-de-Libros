@@ -1,0 +1,53 @@
+{% extends 'plantillas/plantilla_general.html' %}
+{% block contenido %}
+<br>
+
+{% for li in libro %}  
+<div class="card-body">
+    <div class="card">
+        <div class="card-header d-flex">
+            <h5>Libro <strong>{{ li.titulo }}</strong></h5>
+            <div class="d-flex ms-auto">
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">&#x2190; Volver</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Descripcion:</h5>
+            <p>{{ li.descripcion }}</p>
+            <p class="card-text">
+            <ul>
+                <strong>Año de Publicacion:</strong>
+                {{li.anio_publicacion}}
+                </br><br>
+                <strong>Autor/es:</strong><br>
+                {% for autor in li.autores.all %}
+                {{autor}} <br>
+                {% endfor %}
+                <br>
+                <strong>Genero/s: </strong><br>
+                {% for genero in li.generos.all %}
+                {{genero}} <br>
+                {% endfor %}
+            </ul>
+            </p>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'comentario-libro' li.id %}" class="btn btn-outline-success btn-sm">Comentar</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<br>
+<div class="card">
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            {% for comentario in comentarios %}
+            <li class="list-group-item"><strong>{{comentario.usuario}}:</strong>
+                <p>{{comentario.texto_comentario}}</p>
+            </li>
+            {% endfor %}
+          </ul>
+    </div>
+</div>
+{% endblock %}

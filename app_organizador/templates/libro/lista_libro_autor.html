@@ -1,0 +1,21 @@
+{% extends 'plantillas/plantilla_general.html' %}
+{% block contenido %}
+<br>
+<div class="card">
+    <div class="card-header d-flex">
+        <h5 class="text-center">Libros</h5>
+        <div class="d-flex ms-auto">
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">&#x2190; Volver</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <ul>
+            {% for libro in libros %}
+            <li><a href="{% url 'detalle-libro' libro.id %}" class="link-dark link-underline-light">{{libro.titulo}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock contenido %}

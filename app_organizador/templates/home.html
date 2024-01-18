@@ -1,0 +1,72 @@
+{% extends 'plantillas/plantilla_general.html' %}
+{% block contenido %}
+<br>
+
+
+<div class="row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-header d-flex">
+                <h5 class="" >Libros</h5>
+                <div class="d-flex ms-auto">
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col" class="text-end"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for libro in libros %}
+                        <tr>
+                            <td colspan="2">{{libro.titulo}}</td>
+        
+                            <td class="text-end">
+                                <a href="{% url 'detalle-libro' libro.id %}" class="btn btn-outline-success btn-sm">Detalles</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header d-flex">
+                <h5 class="text-center">Autores</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col" class="text-end"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for autor in autores %}
+                        <tr>
+                            <td colspan="2">{{autor.nombre}}</td>
+        
+                            <td class="text-end">
+                                <a href="{% url 'libro-autor' autor.id %}" class="btn btn-outline-success btn-sm">Libros</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
